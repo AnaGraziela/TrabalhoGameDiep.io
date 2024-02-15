@@ -6,13 +6,18 @@ public class MovimentPlayer : MonoBehaviour
 {
     float speed = 5f;
     float rotationSpeed = 100f;
+    public Transform heathPlayer;
+    public GameObject heathObject;
+    private Vector3 heathScale;
+    private float heathPercent;
+    private float heath = 100;
 
 
 
 
     void Start()
     {
-
+        LifeSystem();
     }
 
     // Update is called once per frame
@@ -20,6 +25,7 @@ public class MovimentPlayer : MonoBehaviour
     {
         Moviment();
         Rotation();
+        
 
     }
     void Moviment()
@@ -111,5 +117,36 @@ public class MovimentPlayer : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
     }
+    void LifeSystem()
+    {
+        heathScale = heathPlayer.localScale;
+        heathPercent = heathScale.x / heath;
+    }
+    void UpdateHealth()
+    {
+        heathScale.x = heathPercent * heath;
+        heathPlayer.localScale= heathScale;
+    }
+    public void TakeDamage(float damage)
+    {
+        heath -= damage;
+        UpdateHealth();
+        if(heath <= 0f)
+        {
+            Die();
+        }
+    }
+    void Die()
+    {
+        Debug.Log("Voce morreu");
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("enemyBullet"))
+        {
+            TakeDamage(20);
+        }
+    }
 }
+
 
