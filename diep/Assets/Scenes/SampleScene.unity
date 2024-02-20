@@ -1081,6 +1081,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4033561578660508830, guid: 5a9f64db9f5143b48a8356d2f663a605, type: 3}
+      propertyPath: sceneViewId
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4533906207831193773, guid: 5a9f64db9f5143b48a8356d2f663a605, type: 3}
       propertyPath: sceneViewId
       value: 4
@@ -1088,6 +1092,14 @@ PrefabInstance:
     - target: {fileID: 4731396095284022120, guid: 5a9f64db9f5143b48a8356d2f663a605, type: 3}
       propertyPath: sceneViewId
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5050568116115181336, guid: 5a9f64db9f5143b48a8356d2f663a605, type: 3}
+      propertyPath: sceneViewId
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836724979591796851, guid: 5a9f64db9f5143b48a8356d2f663a605, type: 3}
+      propertyPath: sceneViewId
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6824373110701589167, guid: 5a9f64db9f5143b48a8356d2f663a605, type: 3}
       propertyPath: sceneViewId
@@ -1101,5 +1113,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerAndBullet
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2196853828994883615, guid: 5a9f64db9f5143b48a8356d2f663a605, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5a9f64db9f5143b48a8356d2f663a605, type: 3}

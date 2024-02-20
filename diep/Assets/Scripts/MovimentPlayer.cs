@@ -6,12 +6,13 @@ using TMPro;
 
 public class MovimentPlayer : MonoBehaviourPun
 {
+    public float rotationSpeed = 100f;
     public float speed = 5f;
     public Transform heathPlayer;
     private Vector3 heathScale;
     private float heathPercent;
     private float heath = 100;
-    public TextMeshProUGUI playerNameText;
+    public TextMeshProUGUI playerNameText;  // Adiciona essa variável para armazenar a referência ao TextMeshProUGUI
 
     void Start()
     {
@@ -20,31 +21,28 @@ public class MovimentPlayer : MonoBehaviourPun
             // Se não for o jogador local, desativa este script
             enabled = false;
         }
-        else
+
+        // Chama o método para configurar o sistema de vida
+        LifeSystem();
+
+        // Obtém o nome do jogador do Photon
+        string playerName = photonView.Owner.NickName;
+
+        // Atualiza o TextMeshProUGUI com o nome do jogador
+        if (playerNameText != null)
         {
-            // Chama o método para configurar o sistema de vida
-            LifeSystem();
-
-            // Obtém o nome do jogador do Photon
-            string playerName = photonView.Owner.NickName;
-
-            // Atualiza o TextMeshProUGUI com o nome do jogador
-            if (playerNameText != null)
-            {
-                playerNameText.text = playerName;
-            }
+            playerNameText.text = playerName;
         }
     }
-
     void Update()
     {
         if (photonView.IsMine)
         {
+            // Se for o jogador local, executa a lógica de movimentação
             Moviment();
             Rotation();
         }
     }
-
     void Moviment()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -101,5 +99,3 @@ public class MovimentPlayer : MonoBehaviourPun
         }
     }
 }
-
-
