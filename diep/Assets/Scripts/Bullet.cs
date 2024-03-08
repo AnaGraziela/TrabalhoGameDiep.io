@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class Bullet : MonoBehaviour
 {
@@ -16,7 +18,11 @@ public class Bullet : MonoBehaviour
     }
     void Shoot()
     {
-        GameObject projectile = Instantiate(projectPrefab, transform.position, transform.rotation, canvasBullets.transform);
+        // Instancia o objeto usando PhotonNetwork
+        GameObject projectile = PhotonNetwork.Instantiate(projectPrefab.name, transform.position, Quaternion.identity);
+
+        // Define o canvasBullets como o pai do objeto instanciado
+        projectile.transform.SetParent(canvasBullets.transform);
 
         // Obtém o componente Rigidbody do projétil
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
@@ -32,8 +38,6 @@ public class Bullet : MonoBehaviour
             Debug.LogWarning("Rigidbody2D não encontrado no prefab do projétil.");
         }
     }
-
-
 }
 
 
