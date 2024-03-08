@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         localPlayer = PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
         localPlayer.GetComponent<PlayerAndBullet>().canvasBullets.worldCamera = camera;
         localPlayer.GetComponent<PlayerAndBullet>().canvasPlayers.worldCamera = camera;
-        // Desabilita o script de movimentação se não houver jogadores suficientes
+        /*// Desabilita o script de movimentação se não houver jogadores suficientes
         if (PhotonNetwork.CurrentRoom.PlayerCount <= 1)
         {
             MovimentPlayer movimentPlayer = localPlayer.GetComponent<MovimentPlayer>();
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 movimentPlayer.enabled = false;
             }
-        }
+        }*/
     }
 
     public void ExitGame()
