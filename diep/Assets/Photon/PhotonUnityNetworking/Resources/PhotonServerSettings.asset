@@ -41,6 +41,7 @@ MonoBehaviour:
   - RespawnSpaceship
   - SetCameraAndCanvas_RPC
   - SetCameraTransform_RPC
+  - Shoot
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 0

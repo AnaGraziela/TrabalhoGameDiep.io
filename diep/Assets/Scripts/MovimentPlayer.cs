@@ -6,6 +6,7 @@ using TMPro;
 
 public class MovimentPlayer : MonoBehaviourPun
 {
+    public GameObject gun;
     public float rotationSpeed = 100f;
     public float speed = 5f;
     public Transform heathPlayer;
@@ -19,6 +20,7 @@ public class MovimentPlayer : MonoBehaviourPun
         if (!photonView.IsMine)
         {
             // Se não for o jogador local, desativa este script
+            gun.GetComponent<Bullet>().enabled = false;
             enabled = false;
         }
 

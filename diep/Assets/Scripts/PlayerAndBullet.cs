@@ -4,6 +4,5 @@ using UnityEngine;
 
 public class PlayerAndBullet : MonoBehaviourPun
 {
-    public Canvas canvasBullets;
     public Canvas canvasPlayers;
 }

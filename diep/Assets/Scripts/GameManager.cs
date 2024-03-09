@@ -44,8 +44,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         // Instancia o jogador na posição inicial desejada
         localPlayer = PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
-        localPlayer.GetComponent<PlayerAndBullet>().canvasBullets.worldCamera = camera;
-        localPlayer.GetComponent<PlayerAndBullet>().canvasPlayers.worldCamera = camera;
+        localPlayer.GetComponent<Canvas>().worldCamera = camera;
         /*// Desabilita o script de movimentação se não houver jogadores suficientes
         if (PhotonNetwork.CurrentRoom.PlayerCount <= 1)
         {
