@@ -8,70 +8,60 @@ using TMPro;
 public class Connect : MonoBehaviourPunCallbacks
 {
     public TMP_InputField namePlayer;
-    public TMP_InputField nameNewRoom;  
+    public TMP_InputField nameNewRoom;
     public TMP_InputField nameSpecificRoom;
-    public GameObject loginPanel, findMatchPanel;
 
-    private string namePlayerTemporary;
-    private string nameRoomTemporary;
+    private string playerName;
+    private string roomName;
 
     private void Start()
     {
-        namePlayerTemporary = PhotonNetwork.NickName = "JOGADOR_" + Random.Range(0, 1000);
-        namePlayer.text = namePlayerTemporary;
+        playerName = "JOGADOR_" + Random.Range(0, 1000);
+        namePlayer.text = playerName;
+        ConnectToPhoton();
     }
-    public void Login()
+
+    private void ConnectToPhoton()
     {
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.ConnectToRegion("sa");
 
-        if (namePlayer.text != namePlayerTemporary)
-            PhotonNetwork.NickName = namePlayer.text;
-        else
-            PhotonNetwork.NickName = namePlayerTemporary;
-
-        loginPanel.SetActive(false);
+        PhotonNetwork.NickName = namePlayer.text;
     }
 
-    public void ButtonFindMatch() //Encontrar partida
+    public void ButtonFindMatch()
     {
-        PhotonNetwork.JoinLobby();
+        PhotonNetwork.JoinRandomRoom();
     }
 
-    public void ButtonCreateRoom() //Criar sala
+    public void ButtonCreateRoom()
     {
-        string nameR;
-
-        if (nameNewRoom.text != null)
-            nameR = nameNewRoom.text;
-        else
-            nameR = "SALA_" + Random.Range(0, 1000);
+        roomName = (string.IsNullOrEmpty(nameNewRoom.text)) ? "SALA_" + Random.Range(0, 1000) : nameNewRoom.text;
 
         RoomOptions roomOptions = new RoomOptions() { MaxPlayers = 10 };
-
-        PhotonNetwork.CreateRoom(nameR, roomOptions, TypedLobby.Default);
+        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
+        PhotonNetwork.NickName = namePlayer.text;
+        PhotonNetwork.LoadLevel("Game");
     }
-    public void ButtonSpecificRoom() //Buscar sala específica
-    {
-        string nameR;
 
-        if (nameSpecificRoom.text != nameRoomTemporary)
+    public void ButtonSpecificRoom()
+    {
+        roomName = nameSpecificRoom.text;
+
+        if (!string.IsNullOrEmpty(roomName))
         {
-            nameR = nameSpecificRoom.text;
-            PhotonNetwork.JoinRoom(nameR);
+            PhotonNetwork.NickName = namePlayer.text;
+            PhotonNetwork.JoinRoom(roomName);
         }
         else
         {
-            Debug.Log("Nome não informado");
+            Debug.Log("Nome da sala não informado.");
         }
-
     }
 
-    public override void OnConnected()
+    public void ButtonExit()
     {
-        Debug.Log("CONECTOU!");
-        Debug.Log($"SERVIDOR: {PhotonNetwork.CloudRegion} PING: {PhotonNetwork.GetPing()}");
-        findMatchPanel.SetActive(true);
+        PhotonNetwork.LeaveRoom();
     }
 
     public override void OnConnectedToMaster()
@@ -81,22 +71,29 @@ public class Connect : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        Debug.Log("ENTROU NO LOBBY!");
-        PhotonNetwork.JoinRandomRoom();
+        Debug.Log("Entrou no Lobby!");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("FALHOU!");
+        Debug.Log("Falhou ao entrar em uma sala aleatória.");
 
-        string roomName = "SALA_" + Random.Range(0, 1000);
-        PhotonNetwork.CreateRoom(roomName);
+        // Cria uma sala aleatória se não encontrar
+        ButtonCreateRoom();
     }
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("ENTROU NA SALA!");
-        Debug.Log("NOME DA SALA: " + PhotonNetwork.CurrentRoom.Name);
-        Debug.Log("NÚMERO DE JOGADORES: " + PhotonNetwork.CurrentRoom.PlayerCount);
+        Debug.Log("Entrou na sala " + PhotonNetwork.CurrentRoom.Name);
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        {
+            Debug.Log("Aguardando mais jogadores...");
+        }
+        else
+        {
+            PhotonNetwork.NickName = namePlayer.text;   
+            PhotonNetwork.LoadLevel("Game");
+        }
     }
 }

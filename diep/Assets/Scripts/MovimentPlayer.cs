@@ -1,146 +1,99 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using TMPro;
 
-public class MovimentPlayer : MonoBehaviour
+public class MovimentPlayer : MonoBehaviourPun
 {
-    float speed = 5f;
-    float rotationSpeed = 100f;
+    public GameObject gun;
+    public float rotationSpeed = 100f;
+    public float speed = 5f;
     public Transform heathPlayer;
-    public GameObject heathObject;
     private Vector3 heathScale;
     private float heathPercent;
     private float heath = 100;
-
-
-
+    public TextMeshProUGUI playerNameText;  // Adiciona essa variável para armazenar a referência ao TextMeshProUGUI
 
     void Start()
     {
-        LifeSystem();
-    }
+        if (!photonView.IsMine)
+        {
+            // Se não for o jogador local, desativa este script
+            gun.GetComponent<Bullet>().enabled = false;
+            enabled = false;
+        }
 
-    // Update is called once per frame
+        // Chama o método para configurar o sistema de vida
+        LifeSystem();
+
+        // Obtém o nome do jogador do Photon
+        string playerName = photonView.Owner.NickName;
+
+        // Atualiza o TextMeshProUGUI com o nome do jogador
+        if (playerNameText != null)
+        {
+            playerNameText.text = playerName;
+        }
+    }
     void Update()
     {
-        Moviment();
-        Rotation();
-        
-
+        if (photonView.IsMine)
+        {
+            // Se for o jogador local, executa a lógica de movimentação
+            Moviment();
+            Rotation();
+        }
     }
     void Moviment()
     {
-        Vector3 movementDirection;
-        float rotationInput = 0f;
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            movementDirection = new Vector3(0, 1, 0f).normalized;
-
-            Vector3 currentPosition = transform.position;
-            Vector3 newPosition = currentPosition + movementDirection * speed * Time.deltaTime;
-
-
-            transform.position = newPosition;
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            movementDirection = new Vector3(0, -1, 0f).normalized;
-
-            Vector3 currentPosition = transform.position;
-            Vector3 newPosition = currentPosition + movementDirection * speed * Time.deltaTime;
-
-
-            transform.position = newPosition;
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            movementDirection = new Vector3(1, 0, 0f).normalized;
-
-            Vector3 currentPosition = transform.position;
-            Vector3 newPosition = currentPosition + movementDirection * speed * Time.deltaTime;
-
-
-            transform.position = newPosition;
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            movementDirection = new Vector3(-1, 0, 0f).normalized;
-
-            Vector3 currentPosition = transform.position;
-            Vector3 newPosition = currentPosition + movementDirection * speed * Time.deltaTime;
-
-
-            transform.position = newPosition;
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            rotationInput = -1;
-            float rotation = rotationInput * speed * Time.deltaTime;
-
-
-            transform.Rotate(Vector3.forward, rotation);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            rotationInput = 1;
-            float rotation = rotationInput * speed * Time.deltaTime;
-
-
-            transform.Rotate(Vector3.forward, rotation);
-        }
-
-
-
-
-
-
-
+        Vector3 movementDirection = new Vector3(horizontalInput, verticalInput, 0f).normalized;
+        Vector3 currentPosition = transform.position;
+        Vector3 newPosition = currentPosition + movementDirection * speed * Time.deltaTime;
+        transform.position = newPosition;
     }
+
     void Rotation()
     {
-
         Vector3 mousePosition = Input.mousePosition;
-
-
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, Camera.main.transform.position.z - transform.position.z));
-
-
         Vector3 direction = mouseWorldPosition - transform.position;
         direction.z = 0f;
-
-
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
         transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
     }
+
     void LifeSystem()
     {
         heathScale = heathPlayer.localScale;
         heathPercent = heathScale.x / heath;
     }
+
     void UpdateHealth()
     {
         heathScale.x = heathPercent * heath;
-        heathPlayer.localScale= heathScale;
+        heathPlayer.localScale = heathScale;
     }
+
     public void TakeDamage(float damage)
     {
         heath -= damage;
         UpdateHealth();
-        if(heath <= 0f)
+        if (heath <= 0f)
         {
             Die();
         }
     }
+
     void Die()
     {
-        Debug.Log("Voce morreu");
+        Debug.Log("Você morreu");
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("enemyBullet"))
         {
@@ -148,5 +101,3 @@ public class MovimentPlayer : MonoBehaviour
         }
     }
 }
-
-
