@@ -23,6 +23,11 @@ public class MovimentPlayer : MonoBehaviourPun
             gun.GetComponent<Bullet>().enabled = false;
             enabled = false;
         }
+        else
+        {
+            Camera camera = FindObjectOfType<Camera>();
+            camera.GetComponent<CameraController>().player = transform;
+        }
 
         // Chama o método para configurar o sistema de vida
         LifeSystem();
