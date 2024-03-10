@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
     public float maxYLimit; // Limite m�ximo do mapa em Y
     public float minYLimit; // Limite m�nimo do mapa em Y
     public Vector3 offset;  // armazenar a diferen�a entre a posi��o da c�mera e a posi��o do jogador no in�cio do jogo.
+    public Vector3 cameraPosition;
     private void Update()
     {
         if (player != null)
@@ -36,9 +37,9 @@ public class CameraController : MonoBehaviour
         // Debug.Log(maxXLimit + "\n" + minXLimit + "\n" + maxYLimit + "\n" +minYLimit);
 
         // Suaviza o movimento da c�mera usando Lerp
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, cameraSpeed);
+        cameraPosition = Vector3.Lerp(transform.position, desiredPosition, cameraSpeed);
 
         // Atualiza a posi��o da c�mera
-        transform.position = smoothedPosition;
+        transform.position = cameraPosition;
     }
 }

@@ -6,6 +6,8 @@ using TMPro;
 
 public class MovimentPlayer : MonoBehaviourPun
 {
+    public GameObject canvaGameOver;
+    public GameObject canvaWinGame;
     public GameObject gun;
     public float rotationSpeed = 100f;
     public float speed = 5f;
@@ -95,13 +97,32 @@ public class MovimentPlayer : MonoBehaviourPun
 
     void Die()
     {
-        Debug.Log("Você morreu");
+        if (photonView.IsMine)
+        {
+            Camera camera = FindObjectOfType<Camera>();
+            GameObject gameOver = Instantiate(canvaGameOver, camera.GetComponent<CameraController>().cameraPosition, Quaternion.identity);
+            gameOver.GetComponent<Canvas>().worldCamera = camera;
+
+            PhotonNetwork.Destroy(gameObject);
+        }
+        else
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            {
+                Camera camera = FindObjectOfType<Camera>();
+                GameObject winGame = Instantiate(canvaWinGame, camera.GetComponent<CameraController>().cameraPosition, Quaternion.identity);
+                winGame.GetComponent<Canvas>().worldCamera = camera;
+                PhotonNetwork.Destroy(gameObject);
+            }
+        }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("enemyBullet"))
+        if (collision.gameObject.CompareTag("EnemyBullet"))
         {
+            Destroy(collision.gameObject);
             TakeDamage(20);
         }
     }
