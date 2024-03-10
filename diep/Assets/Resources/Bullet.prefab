@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 4298298190281666974}
   m_Layer: 5
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,7 +41,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 31.8699, y: 16.6432}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.6065, y: 0.6133}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4715036063197856144
