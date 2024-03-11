@@ -40,8 +40,8 @@ public class Connect : MonoBehaviourPunCallbacks
 
         RoomOptions roomOptions = new RoomOptions() { MaxPlayers = 10 };
         PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-        PhotonNetwork.NickName = namePlayer.text;
-        PhotonNetwork.LoadLevel("Game");
+        //PhotonNetwork.NickName = namePlayer.text;
+        //PhotonNetwork.LoadLevel("Game");
     }
 
     public void ButtonSpecificRoom()
@@ -85,15 +85,7 @@ public class Connect : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("Entrou na sala " + PhotonNetwork.CurrentRoom.Name);
-
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
-        {
-            Debug.Log("Aguardando mais jogadores...");
-        }
-        else
-        {
-            PhotonNetwork.NickName = namePlayer.text;   
-            PhotonNetwork.LoadLevel("Game");
-        }
+        PhotonNetwork.NickName = namePlayer.text;
+        PhotonNetwork.LoadLevel("Game");
     }
 }

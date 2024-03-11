@@ -1363,7 +1363,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 519420031}
   playerPrefab: {fileID: 4546355297868895806, guid: a9bc5169d3fd20445b9ea43493a6cb50, type: 3}
-  loadPlayersPopup: {fileID: 1178065148027415566, guid: 73413e0d91d70f8449e21af35d38525c, type: 3}
 --- !u!114 &2068411405
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,34 +7,20 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     public Camera camera;
     public GameObject playerPrefab; // Prefab do jogador
-    public GameObject loadPlayersPopup; // Pop-up de aguardando jogadores
 
     private GameObject localPlayer;
 
-    private void Start()
+    void Start()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
-        {
-            SpawnPlayer();
-        }
+        SpawnPlayer();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log("Novo jogador entrou na sala: " + newPlayer.NickName);
-
-        if (PhotonNetwork.CurrentRoom.PlayerCount <= 1)
+        if (localPlayer == null)
         {
-            loadPlayersPopup = Instantiate(loadPlayersPopup, camera.GetComponent<CameraController>().cameraPosition, Quaternion.identity);
-            loadPlayersPopup.GetComponent<Canvas>().worldCamera = camera;
-        }
-       else
-        {
-            if (localPlayer == null)
-            {
-                SpawnPlayer();
-                PhotonNetwork.Destroy(loadPlayersPopup); // Remove o pop-up quando outro jogador entra
-            }
+            SpawnPlayer();
         }
     }
 
