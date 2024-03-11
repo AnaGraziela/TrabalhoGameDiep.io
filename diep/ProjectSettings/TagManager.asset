@@ -8,6 +8,7 @@ TagManager:
   - CanvasBullets
   - EnemyBullet
   - enemyBullet
+  - Kit
   layers:
   - Default
   - TransparentFX
