@@ -131,5 +131,12 @@ public class MovimentPlayer : MonoBehaviourPun
             Destroy(collision.gameObject);
             TakeDamage(20);
         }
+
+        if (collision.gameObject.CompareTag("Kit"))
+        {
+            Destroy(collision.gameObject);
+            heath += 10;
+        }
     }
+    
 }
