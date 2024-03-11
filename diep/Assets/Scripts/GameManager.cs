@@ -17,44 +17,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             SpawnPlayer();
         }
-        else
-        {
-            // Se houver apenas um jogador na sala, mostra o pop-up de aguardando jogadores
-            ShowLoadPlayersPopup();
-        }
-    }
-
-    private void ShowLoadPlayersPopup()
-    {
-        // Instancia o pop-up de aguardando jogadores
-        loadPlayersPopup = Instantiate(loadPlayersPopup, camera.GetComponent<CameraController>().cameraPosition, Quaternion.identity);
-        loadPlayersPopup.GetComponent<Canvas>().worldCamera = camera;
-
-        // Inicia a verificação de jogadores
-        StartCoroutine(CheckForPlayers());
-    }
-
-    private IEnumerator CheckForPlayers()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(2f); // Verifica a cada 2 segundos (ajuste conforme necessário)
-
-            // Se houver mais de um jogador na sala, remove o pop-up e inicia o jogo
-            if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
-            {
-                Destroy(loadPlayersPopup);
-                SpawnPlayer();
-                break; // Sai do loop
-            }
-        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log("Novo jogador entrou na sala: " + newPlayer.NickName);
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
+        if (PhotonNetwork.CurrentRoom.PlayerCount <= 1)
+        {
+            loadPlayersPopup = Instantiate(loadPlayersPopup, camera.GetComponent<CameraController>().cameraPosition, Quaternion.identity);
+            loadPlayersPopup.GetComponent<Canvas>().worldCamera = camera;
+        }
+       else
         {
             if (localPlayer == null)
             {
