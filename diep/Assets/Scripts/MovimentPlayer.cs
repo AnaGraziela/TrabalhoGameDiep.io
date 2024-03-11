@@ -184,7 +184,7 @@ public class MovimentPlayer : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject.CompareTag("EnemyBullet"))
         {
-            //Destroy(collision.gameObject);
+            Destroy(collision.gameObject);
             TakeDamage(20);
         }
 
