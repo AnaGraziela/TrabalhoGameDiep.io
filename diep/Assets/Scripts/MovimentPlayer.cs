@@ -8,13 +8,14 @@ public class MovimentPlayer : MonoBehaviourPun
 {
     public GameObject canvaGameOver;
     public GameObject canvaWinGame;
+    public GameObject player;
     public GameObject gun;
     public float rotationSpeed = 100f;
     public float speed = 5f;
     public Transform heathPlayer;
-    private Vector3 heathScale;
+    public float heath = 100;
     private float heathPercent;
-    private float heath = 100;
+    private Vector3 heathScale;
     public TextMeshProUGUI playerNameText;  // Adiciona essa variável para armazenar a referência ao TextMeshProUGUI
 
     void Start()
@@ -47,9 +48,23 @@ public class MovimentPlayer : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            // Se for o jogador local, executa a lógica de movimentação
-            Moviment();
-            Rotation();
+            if (PhotonNetwork.PlayerList.Length == 1)
+            {
+                Camera camera = FindObjectOfType<Camera>();
+                GameObject winGame = Instantiate(canvaWinGame, camera.GetComponent<CameraController>().cameraPosition, Quaternion.identity);
+                winGame.GetComponent<Canvas>().worldCamera = camera;
+            }
+            if (heath > 0f) // Check if the player is alive
+            {
+                // If the player is alive, execute the logic for movement and rotation
+                Moviment();
+                Rotation();
+            }
+            else
+            {
+                // If the player is dead, disable movement and rotation
+                enabled = false;
+            }
         }
     }
     void Moviment()
@@ -103,17 +118,8 @@ public class MovimentPlayer : MonoBehaviourPun
             GameObject gameOver = Instantiate(canvaGameOver, camera.GetComponent<CameraController>().cameraPosition, Quaternion.identity);
             gameOver.GetComponent<Canvas>().worldCamera = camera;
 
-            PhotonNetwork.Destroy(gameObject);
-        }
-        else
-        {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
-            {
-                Camera camera = FindObjectOfType<Camera>();
-                GameObject winGame = Instantiate(canvaWinGame, camera.GetComponent<CameraController>().cameraPosition, Quaternion.identity);
-                winGame.GetComponent<Canvas>().worldCamera = camera;
-                PhotonNetwork.Destroy(gameObject);
-            }
+            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.Destroy(player);
         }
     }
 

@@ -15,8 +15,10 @@ public class Bullet : MonoBehaviourPun
     {
         if (photonView.IsMine && Input.GetMouseButtonDown(0))
         {
-            // Chama o método de disparo apenas no jogador local
-            photonView.RPC("Shoot", RpcTarget.AllViaServer);
+            if (GetComponentInParent<MovimentPlayer>().heath > 0f) 
+            {
+                photonView.RPC("Shoot", RpcTarget.AllViaServer);
+            }
         }
     }
 

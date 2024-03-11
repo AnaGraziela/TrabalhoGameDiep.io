@@ -457,10 +457,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvaGameOver: {fileID: 449462143676798366, guid: 4543e698348af3b488c989dfccf2d2ac, type: 3}
   canvaWinGame: {fileID: 3346995133563295179, guid: a95c070f6e6b42947830555c94442c67, type: 3}
+  player: {fileID: 4546355297868895806}
   gun: {fileID: 4691666841114116199}
   rotationSpeed: 100
   speed: 8
   heathPlayer: {fileID: 7858590011857972384}
+  heath: 100
   playerNameText: {fileID: 6256941645483741531}
 --- !u!50 &5219547503181627242
 Rigidbody2D:
@@ -749,7 +751,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7360272059610087347
 MonoBehaviour:
   m_ObjectHideFlags: 0
