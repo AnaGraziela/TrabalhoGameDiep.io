@@ -3,23 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using Photon.Realtime;
 
-public class MovimentPlayer : MonoBehaviourPun
+public class MovimentPlayer : MonoBehaviourPunCallbacks
 {
     public GameObject canvaGameOver;
     public GameObject canvaWinGame;
+    public GameObject canvaLoadPlayers;
+
     public GameObject player;
     public GameObject gun;
     public float rotationSpeed = 100f;
     public float speed = 5f;
     public Transform heathPlayer;
     public float heath = 100;
+    public TextMeshProUGUI playerNameText;  // Adiciona essa variável para armazenar a referência ao TextMeshProUGUI
+
+    private GameObject loadPlayers;
     private float heathPercent;
     private Vector3 heathScale;
-    public TextMeshProUGUI playerNameText;  // Adiciona essa variável para armazenar a referência ao TextMeshProUGUI
+    private bool onePlayer;
 
     void Start()
     {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        {
+
+            Camera camera = FindObjectOfType<Camera>();
+            loadPlayers = Instantiate(canvaLoadPlayers, camera.GetComponent<CameraController>().cameraPosition, Quaternion.identity);
+            loadPlayers.GetComponent<Canvas>().worldCamera = camera;
+            onePlayer = true;
+            Debug.Log(loadPlayers.name);
+        }
+        else
+        {
+            onePlayer = false;
+        }
         if (!photonView.IsMine)
         {
             // Se não for o jogador local, desativa este script
@@ -44,16 +63,26 @@ public class MovimentPlayer : MonoBehaviourPun
             playerNameText.text = playerName;
         }
     }
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+       if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
+        {
+            onePlayer = false;
+            if (loadPlayers != null)
+                Destroy(loadPlayers);
+        }
+    }
     void Update()
     {
         if (photonView.IsMine)
         {
-            if (PhotonNetwork.PlayerList.Length == 1)
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1 && !onePlayer)
             {
                 Camera camera = FindObjectOfType<Camera>();
                 GameObject winGame = Instantiate(canvaWinGame, camera.GetComponent<CameraController>().cameraPosition, Quaternion.identity);
                 winGame.GetComponent<Canvas>().worldCamera = camera;
             }
+
             if (heath > 0f) // Check if the player is alive
             {
                 // If the player is alive, execute the logic for movement and rotation
