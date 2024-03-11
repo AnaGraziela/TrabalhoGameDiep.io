@@ -5792,6 +5792,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1519848055}
+        m_TargetAssemblyTypeName: CharacterSelection, Assembly-CSharp
+        m_MethodName: Continue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1378091986}
         m_TargetAssemblyTypeName: Connect, Assembly-CSharp
         m_MethodName: ButtonCreateRoom
@@ -6521,6 +6533,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1519848055}
+        m_TargetAssemblyTypeName: CharacterSelection, Assembly-CSharp
+        m_MethodName: Continue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1378091986}
         m_TargetAssemblyTypeName: Connect, Assembly-CSharp
         m_MethodName: ButtonSpecificRoom
@@ -6869,6 +6893,7 @@ GameObject:
   - component: {fileID: 1519848054}
   - component: {fileID: 1519848056}
   - component: {fileID: 1519848055}
+  - component: {fileID: 1519848057}
   m_Layer: 0
   m_Name: Selection
   m_TagString: Untagged
@@ -6921,9 +6946,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characters:
+  - {fileID: 11400000, guid: a7f858aa7f251444ca7512a1eea0ecbe, type: 2}
   - {fileID: 11400000, guid: 7a00981a1f53ee2498d361bd33575f25, type: 2}
-  - {fileID: 11400000, guid: 4abbc1427bcdd6e4296af96f9a2efb6c, type: 2}
-  - {fileID: 11400000, guid: a154fc1f9eec8b945a8024f8aedf4ef1, type: 2}
+  - {fileID: 11400000, guid: 831b66eabf2187d42acfe09b630cd4ce, type: 2}
+  - {fileID: 11400000, guid: 705940eeae1d33340b42db9de0a6e1d6, type: 2}
+  - {fileID: 11400000, guid: 7b37012f54e50a04cb81b7d7ae0b5d45, type: 2}
+  - {fileID: 11400000, guid: d20b4bf0bf44c1b498eacfdbe74805ca, type: 2}
+  - {fileID: 11400000, guid: 8472d1ac87745f840a3f00d8659af3df, type: 2}
+  - {fileID: 11400000, guid: 189dbe3be4ccc3f4fafa7b0741ee401f, type: 2}
+  - {fileID: 11400000, guid: 3877153580aa8ef47aeef9cb9b08d7d3, type: 2}
+  - {fileID: 11400000, guid: 5015299be141f794f8a4e81b518db963, type: 2}
+--- !u!114 &1519848057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519848053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1565928690
 GameObject:
   m_ObjectHideFlags: 0
@@ -8229,6 +8283,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1519848055}
+        m_TargetAssemblyTypeName: CharacterSelection, Assembly-CSharp
+        m_MethodName: Continue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1378091986}
         m_TargetAssemblyTypeName: Connect, Assembly-CSharp
         m_MethodName: ButtonFindMatch

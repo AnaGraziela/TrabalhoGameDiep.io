@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Photon.Pun;
 using UnityEngine.SceneManagement;
 
-public class CharacterSelection : MonoBehaviour
+public class CharacterSelection : MonoBehaviourPunCallbacks
 {
     [SerializeField] CharacterPanel characterPanelMiddle;
     void Start()
@@ -44,8 +46,18 @@ public class CharacterSelection : MonoBehaviour
     }
     public void Continue()
     {
-        PlayerPrefs.SetString("characterName", CharacterList.instance.currentCharacter.characterName);
+        string characterName = CharacterList.instance.currentCharacter.characterName;
+
+        // Sincroniza a escolha de sprite entre todos os jogadores
+        photonView.RPC("SyncSpriteChoice", RpcTarget.AllBuffered, characterName);
+        // Salva a escolha do personagem no PlayerPrefs
+        PlayerPrefs.SetString("characterName", characterName);
         PlayerPrefs.Save();
-        SceneManager.LoadScene("SelectLevel");
+    }
+
+    [PunRPC]
+    void SyncSpriteChoice(string characterName)
+    {
+        CharacterList.instance.UpdateSpriteForPlayer(photonView.Owner, characterName);
     }
 }

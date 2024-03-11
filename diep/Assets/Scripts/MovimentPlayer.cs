@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
@@ -18,7 +19,7 @@ public class MovimentPlayer : MonoBehaviourPunCallbacks
     public Transform heathPlayer;
     public float heath = 100;
     public TextMeshProUGUI playerNameText;  // Adiciona essa variável para armazenar a referência ao TextMeshProUGUI
-
+    public List<Sprite> listClothesPlayer;
     private GameObject loadPlayers;
     private float heathPercent;
     private Vector3 heathScale;
@@ -26,14 +27,16 @@ public class MovimentPlayer : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
-        {
+        UpdateClothesPlayer();
 
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1 && photonView.IsMine)
+        {
             Camera camera = FindObjectOfType<Camera>();
             loadPlayers = Instantiate(canvaLoadPlayers, camera.GetComponent<CameraController>().cameraPosition, Quaternion.identity);
             loadPlayers.GetComponent<Canvas>().worldCamera = camera;
+            gun.GetComponent<Bullet>().enabled = false;
+
             onePlayer = true;
-            Debug.Log(loadPlayers.name);
         }
         else
         {
@@ -63,13 +66,37 @@ public class MovimentPlayer : MonoBehaviourPunCallbacks
             playerNameText.text = playerName;
         }
     }
+    private void UpdateClothesPlayer()
+    {
+        if (PlayerPrefs.HasKey("characterName"))
+        {
+            string spriteName = PlayerPrefs.GetString("characterName");
+            photonView.RPC("UpdateSprite", RpcTarget.AllBuffered, spriteName);
+        }
+    }
+
+    [PunRPC]
+    void UpdateSprite(string spriteName)
+    {
+        int spriteIndex = CharacterList.instance.characters.FindIndex(c => c.characterName == spriteName);
+        if (spriteIndex != -1)
+        {
+            GetComponent<Image>().sprite = CharacterList.instance.characters[spriteIndex].face;
+        }
+    }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-       if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
+        if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
             onePlayer = false;
             if (loadPlayers != null)
+            {
                 Destroy(loadPlayers);
+            }
+            if (photonView.IsMine)
+                gun.GetComponent<Bullet>().enabled = true;
+
         }
     }
     void Update()
@@ -157,7 +184,7 @@ public class MovimentPlayer : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject.CompareTag("EnemyBullet"))
         {
-            Destroy(collision.gameObject);
+            //Destroy(collision.gameObject);
             TakeDamage(20);
         }
 
@@ -167,5 +194,5 @@ public class MovimentPlayer : MonoBehaviourPunCallbacks
             heath += 10;
         }
     }
-    
+
 }

@@ -42,6 +42,8 @@ MonoBehaviour:
   - SetCameraAndCanvas_RPC
   - SetCameraTransform_RPC
   - Shoot
+  - SyncSpriteChoice
+  - UpdateSprite
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 0
